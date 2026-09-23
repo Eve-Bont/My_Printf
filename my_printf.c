@@ -1,7 +1,18 @@
-#include <stdarg.h>
 #include "fonction.h"
 
-int my_printf(char * restrict format, ...) {
+const t_dispatch dispatch[] = {
+    {'d', print_int},
+    {'i', print_int},
+    {'o', print_octal},
+    {'u', print_unsigned},
+    {'x', print_hexa},
+    {'c', print_char},
+    {'s', print_string},
+    {'p', print_pointeur},
+    {'%', print_pourcent}
+};
+
+int my_printf(char* restrict format, ...) {
     va_list args;
 
     if(format == NULL) {
@@ -15,36 +26,17 @@ int my_printf(char * restrict format, ...) {
     while (format[i] != '\0') {
         if (format[i] == '%') {
             i++;
-
+            
             if (format[i] == '\0') {
                 va_end(args);
                 return count;
             }
 
-            if (format[i] == 'd' || format[i] == 'i') {
-                count += print_int(va_arg(args, int));
-
-            } else if (format[i] == 'o') {
-                count += print_octal(va_arg(args, unsigned int));
-
-            } else if (format[i] == 'u') {
-                count += print_unsigned(va_arg(args, unsigned int));
-
-            } else if (format[i] == 'x') {
-                count += print_hexa(va_arg(args, unsigned int));
-
-            } else if (format[i] == 'c') {
-                count += print_char((char)va_arg(args, int));
-
-            } else if (format[i] == 's') {
-                count += print_string(va_arg(args, char*));
-
-            } else if (format[i] == 'p') {
-                count += print_pointeur(va_arg(args, void*));
-
-            } else if (format[i] == '%') {
-                count += print_pourcent();
-
+            for (size_t j = 0; j < sizeof(dispatch) / sizeof(dispatch[0]); j++) {
+                if (dispatch[j].specifier == format[i]) {
+                    count += dispatch[j].fonction(args);
+                    break;
+                }
             }
             i++;
         } else {

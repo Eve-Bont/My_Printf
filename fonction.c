@@ -25,7 +25,8 @@ int print_base(unsigned long nb, int base, const char* digits) {
     return count;
 }
 
-int print_int(int d) {
+int print_int(va_list args) {
+    int d = va_arg(args, int);
     if (d >= 0) {
         return print_base(d, 10, "0123456789");
     } else {
@@ -35,24 +36,29 @@ int print_int(int d) {
     }
 }
 
-int print_octal(unsigned int o) {
+int print_octal(va_list args) {
+    unsigned int o = va_arg(args, unsigned int);
     return print_base(o, 8, "01234567");
 }
 
-int print_unsigned(unsigned int u) {
+int print_unsigned(va_list args) {
+    unsigned int u = va_arg(args, unsigned int);
     return print_base(u, 10, "0123456789");
 }
 
-int print_hexa(unsigned int x) {
+int print_hexa(va_list args) {
+    unsigned int x = va_arg(args, unsigned int);
     return print_base(x, 16, "0123456789abcdef");
 }
 
-int print_char(char c) {
+int print_char(va_list args) {
+    char c = (char)va_arg(args, int);
     write(1, &c, 1);
     return 1;
 }
 
-int print_string(const char* s) {
+int print_string(va_list args) {
+    char* s = va_arg(args, char*);
     int count = 0;
     int j = 0;
     if(s == NULL) {
@@ -67,7 +73,8 @@ int print_string(const char* s) {
     return count;
 }
 
-int print_pointeur(void* p) {
+int print_pointeur(va_list args) {
+    void* p = va_arg(args, void*);
     uintptr_t adresse = (uintptr_t)p;
 
     char zero = '0';
@@ -78,7 +85,8 @@ int print_pointeur(void* p) {
     return 2 + print_base(adresse, 16, "0123456789abcdef");
 }
 
-int print_pourcent(void) {
+int print_pourcent(va_list args) {
+    (void)args;
     char pourcent = '%';
     write(1, &pourcent, 1);
     return 1;
