@@ -3,18 +3,23 @@
 
 int my_printf(char * restrict format, ...) {
     va_list args;
-    
-    va_start(args, format);
-
-    int count = 0;
-    int i = 0;
 
     if(format == NULL) {
         return 0;
     }
+
+    va_start(args, format);
+    int count = 0;
+    int i = 0;
+    
     while (format[i] != '\0') {
         if (format[i] == '%') {
-            i ++;
+            i++;
+
+            if (format[i] == '\0') {
+                va_end(args);
+                return count;
+            }
 
             if (format[i] == 'd' || format[i] == 'i') {
                 count += print_int(va_arg(args, int));
