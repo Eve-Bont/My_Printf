@@ -34,7 +34,7 @@ int my_printf(char* restrict format, ...) {
 
             for (size_t j = 0; j < sizeof(dispatch) / sizeof(dispatch[0]); j++) {
                 if (dispatch[j].specifier == format[i]) {
-                    count += dispatch[j].fonction(args);
+                    count += dispatch[j].fonction(&args);
                     break;
                 }
             }

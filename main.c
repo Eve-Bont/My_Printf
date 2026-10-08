@@ -6,8 +6,7 @@
 
 int main(void)
 {
-    int n = my_printf("Hello %d\n", 42);
-    my_printf("Retour = %d\n", n);
+    my_printf("Hello %s, you are %d!", "Boob", 31);
 
     return 0;
 }
