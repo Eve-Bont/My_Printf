@@ -1,22 +1,20 @@
-NAME = libmyprintf.a
-SRC = my_printf.c fonction.c
+NAME = my_printf
+SRC = main.c my_printf.c fonction.c
 OBJ = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	ar rc $(NAME) $(OBJ)
+	gcc $(CFLAGS) $(OBJ) -o $(NAME)
 
-%.o: %.c
+%.o: %.c fonction.h
 	gcc $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)
-
 fclean: clean
 	rm -f $(NAME)
-
 re: fclean all
 
 .PHONY: all clean fclean re
