@@ -1,6 +1,3 @@
-#ifndef FONCTION_H
-#define FONCTION_H
-
 #include <unistd.h>
 #include <stdint.h>
 #include <stddef.h>
@@ -21,5 +18,3 @@ int print_char(va_list* args);
 int print_string(va_list* args);
 int print_pointeur(va_list* args);
 int print_pourcent(va_list* args);
-
-#endif
